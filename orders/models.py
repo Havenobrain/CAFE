@@ -1,4 +1,4 @@
-from typing import Any  # Для аннотаций аргументов методов
+from typing import Any
 from django.db import models
 
 
