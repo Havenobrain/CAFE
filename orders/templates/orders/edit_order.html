@@ -1,0 +1,22 @@
+{% extends 'orders/base.html' %}
+
+{% block title %}Редактировать заказ{% endblock %}
+
+{% block content %}
+<h1>Редактировать заказ</h1>
+<form method="post" class="order-form">
+    {% csrf_token %}
+    <label for="table_number">Номер стола:</label>
+    {{ form.table_number }}
+    
+    <label for="items">Блюда:</label>
+    {{ form.items }}
+    <p class="hint">Введите блюда в формате: 'Название - Цена'</p>
+
+    <button type="submit" class="btn">Сохранить изменения</button>
+</form>
+
+<div class="button-container">
+    <a class="btn" href="{% url 'order_list' %}">Назад к списку заказов</a>
+</div>
+{% endblock %}

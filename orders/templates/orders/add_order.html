@@ -1,0 +1,35 @@
+{% extends 'orders/base.html' %}
+
+{% block title %}Добавить заказ{% endblock %}
+
+{% block content %}
+<h1>Добавить заказ</h1>
+<form method="post" id="orderForm">
+    {% csrf_token %}
+    <label for="tableNumber">Номер стола:</label>
+    {{ form.table_number }}
+
+    <label for="items">Блюда:</label>
+    {{ form.items }}
+
+    <small id="itemsHelp" style="color: gray; display: block; margin-bottom: 10px;">
+        Введите блюда в формате: "Название - Цена", например "Картошка - 50"
+    </small>
+    
+    <button type="submit" class="btn">Добавить</button>
+</form>
+<a href="{% url 'order_list' %}" class="back-button">Назад к списку заказов</a>
+
+<script>
+    document.getElementById('orderForm').addEventListener('submit', function (event) {
+        const itemsField = document.querySelector('textarea[name="items"]');
+        const itemsValue = itemsField.value.trim();
+        const regex = /^[а-яА-ЯёЁa-zA-Z0-9 ]+ - \d+$/;
+        
+        if (!regex.test(itemsValue)) {
+            event.preventDefault(); 
+            alert('Неправильный формат данных! Введите блюда в формате: "Название - Цена"');
+        }
+    });
+</script>
+{% endblock %}

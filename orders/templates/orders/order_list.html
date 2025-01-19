@@ -1,0 +1,55 @@
+{% extends 'orders/base.html' %}
+
+{% block title %}Список заказов{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="right-align">
+        <form method="get" style="margin-bottom: 20px;">
+            <label for="query">Поиск по номеру стола:</label>
+            <input type="text" name="query" id="query" value="{{ query }}" placeholder="Введите номер стола">
+
+            <label for="status">Фильтр по статусу:</label>
+            <select name="status" id="status">
+                <option value="">Все</option>
+                {% for key, value in status_choices %}
+                <option value="{{ key }}" {% if status_filter == key %}selected{% endif %}>{{ value }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Искать</button>
+        </form>
+    </div>
+
+    <h2>Список заказов</h2>
+    <table>
+        <tr>
+            <th>Стол</th>
+            <th>Блюда</th>
+            <th>Цена</th>
+            <th>Статус</th>
+            <th>Действия</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.table_number }}</td>
+            <td>{{ order.items }}</td>
+            <td>{{ order.total_price }}</td>
+            <td>
+                {{ order.get_status_display }}
+            </td>
+            <td>
+                <a href="{% url 'edit_order' order.id %}" class="btn">Редактировать</a>
+                <a href="{% url 'update_status' order.id %}" class="btn">Изменить статус</a>
+                <a href="{% url 'delete_order' order.id %}" class="btn">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="button-container">
+        <a href="{% url 'add_order' %}" class="btn">Добавить заказ</a>
+        <a href="{% url 'revenue_report' %}" class="btn">Посмотреть выручку за смену</a>
+    </div>
+</div>
+{% endblock %}
